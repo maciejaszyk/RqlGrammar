@@ -124,6 +124,19 @@ ipch/
 # TFS 2012 Local Workspace
 $tf/
 
+# Java
+*.class
+*.log
+*.ctxt
+*.java
+
+
+#antlr
+*.tokens
+*.interp
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
 # Guidance Automation Toolkit
 *.gpState
 

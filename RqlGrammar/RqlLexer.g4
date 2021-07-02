@@ -6,17 +6,19 @@ SELECT: S E L E C T;
 WHERE: W H E R E;
 INDEX: I N D E X;
 GROUP_BY: G R O U P ' ' B Y;
-NAME: QUOTE WORD QUOTE;
 DECLARE: D E C L A R E;
 ORDER_BY: O R D E R ' ' B Y;
 LOAD: L O A D;
 INCLUDE: I N C L U D E;
+ENDS_WITH: E N D S W I T H;
+STARTS_WITH: S T A R T S W I T H;
 WITH: W I T H;
 MATCH: M A T C H;
 ALL_DOCS: '@all_docs';
 BETWEEN: B E T W E E N;
 IN: I N;
 AND: A N D;
+NOT: N O T;
 //RQL OPERATORS:
 MATH_OPERATOR: MORE_OR_EQUAL | MORE_CHAR | LESS_CHAR | LESS_OR_EQUAL | EQUAL | NOT_EQUAL;
 MORE_CHAR: '>';
@@ -31,8 +33,8 @@ OR: O R;
 
 
 WORD: [a-zA-Z]+;
-INT: DIGIT+;
-DOUBLE: DIGIT+ DOT DIGIT+;
+INT: '-'? DIGIT+;
+DOUBLE: '-'? DIGIT+ DOT DIGIT+;
 
 
 //chars
@@ -50,7 +52,6 @@ OPEN_BRACKET: '[';
 CLOSE_BRACKET: ']';
 AT: '@';
 UNDERSCORE: '_';
-
 
 fragment A : [aA];
 fragment B : [bB];

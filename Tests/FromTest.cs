@@ -17,12 +17,7 @@ namespace Tests
             AssertNoErrors(result);
         }
 
-        [Fact]
-        public void FromCollectionAllDocsWithAlias()
-        {
-            var result = Act("from @all_docs as name");
-            AssertWithError(result);
-        }
+      
 
         [Fact]
         public void FromCollectionByName()
@@ -60,6 +55,14 @@ namespace Tests
             AssertWithError(result);
         }
 
+        [Fact]
+        public void FromByAllDocsWithAlias()
+        {
+            //Error will throw later, not in from fragment.
+            var result = Act("from @all_docs as name");
+            AssertNoErrors(result);
+        }
+        
         private RqlParser Act(string input)
         {
             var lexer = new RqlLexer(new AntlrInputStream(input));

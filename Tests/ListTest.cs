@@ -7,17 +7,17 @@ using Xunit;
 
 namespace Tests
 {
-    public class QueryTest
+    public class ListTest
     {
         [Fact]
-        public void BasicSelect()
+        void NumberTest()
         {
-            var lexer = new RqlLexer(new AntlrInputStream("from @all_docs select test"));
+          /**  var lexer = new RqlLexer(new AntlrInputStream("1,2,3,4"));
             var parser = new RqlParser(new CommonTokenStream(lexer));
-            parser.prog();
-            Assert.Equal(0, parser.NumberOfSyntaxErrors);
-
+            parser.numberList();
+            var values = parser **/
 
         }
+       
     }
 }
