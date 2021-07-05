@@ -38,6 +38,13 @@ namespace Tests
             AssertNoErrors(result);
         }
 
+        [Fact]
+        public void SelectMultipleItemsWithAliasAndFunctionsFromCollection()
+        {
+            var result = Act("select Employee as EmployeeIdentifier, count(), Company");
+            AssertNoErrors(result);
+        }
+
         private RqlParser Act(string input)
         {
             var lexer = new RqlLexer(new AntlrInputStream(input));
