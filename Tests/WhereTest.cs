@@ -42,7 +42,7 @@ namespace Tests
             var lexer = new RqlLexer(new AntlrInputStream(input));
             var parser = new RqlParser(new CommonTokenStream(lexer));
             parser.whereStatement();
-
+            
             return parser;
         }
 

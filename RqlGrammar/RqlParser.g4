@@ -1,55 +1,77 @@
 parser grammar RqlParser;
 options { tokenVocab = RqlLexer; }
 
-prog
-    : fromStatement  whereStatement? selectStatement? 
-    
+
+prog:
+    jsCode? fromStatement loadStatment? whereStatement? groupByStatement? orderByStatement? selectStatement? EOF
+    ;
+
+fromStatement:
+     FROM WORD alias? #CollectionByName 
+    |FROM INDEX STRING+ alias? #CollectionByIndex
+    |FROM ALL_DOCS #AllCollections 
+    ;
+
+loadStatment:
+    LOAD itemName AS WORD #LoadAdditionalCollection
+    ;
+
+selectStatement:
+    //  Select only individual fields e.g. "select Column1, Column2"
+     SELECT itemName (COMMA itemName)* #ProjectIndividualFields
+    |SELECT selectItem (COMMA selectItem)* #ProjectWithGroupBy
+    |SELECT jsCode #javascriptCode
     ;
 
 
-// FROM PART
-fromStatement
-    : FROM (ALL_DOCS | (( INDEX indexName | WORD) (AS WORD)?))
+jsCode: (JS_FUNCTION_DECLARATION WORD OP_PAR WORD (COMMA WORD)* CL_PAR)? OP_CUR .*? CL_CUR
+
+;
+
+//tree with alias name in second node
+alias:
+    AS WORD #AliasExpr
     ;
 
+//Accept item or list
+itemName:
+    (WORD (OP_Q CL_Q)? DOT )? WORD
+        ;
+selectItem:
+((functionName | itemName)) alias?;
+//Function with optional param
+functionName:
+    (WORD (DOT WORD)* OP_PAR ((itemName|STRING+|NUM|functionName) (COMMA (itemName|STRING+|NUM|functionName))*)? CL_PAR)
+        ;
 
-//I assume custom index is build using next pattern: 'word/wordx/.../...'
-indexName
-    : QUOTE WORD (FORWARD_SLASH WORD)+ QUOTE  
+whereStatement:
+    WHERE expr #WherePart
+    ; 
+
+groupByStatement:
+    GROUP_BY ((functionName | itemName)) (COMMA (functionName | itemName))*
     ;
 
-
-
-//for now: without JS functions
-selectStatement
-    : SELECT (WORD DOT)? WORD (AS WORD)? (COMMA (WORD DOT)? WORD (AS WORD)?)*
+orderByStatement:
+    ORDER_BY (functionName | itemName) (COMMA (functionName | itemName))* alias? SORTING?
     ;
 
-whereStatement
-    : WHERE expr
+   
+
+
+expr:
+     OP_PAR expr CL_PAR #ParentissExpr
+    | expr EQUAL expr #EqualExpr
+    | expr MATH expr #MathOperatorExpr
+    | expr BETWEEN expr AND expr #BetweenExpr
+    | expr AND NOT? expr #AndExpr
+    | expr OR NOT? expr #OrExpr
+    | expr  ALL? IN expr #ListExpr
+    | COMMA? STRING+ expr? #WordValueExpr
+    | NUM #NumExpr
+    | functionName #FunctionExpr
+    | itemName #WordExpr
     ;
 
-expr
-    : OPEN_PAREN expr CLOSE_PAREN
-    | WORD ( OPEN_BRACKET CLOSE_BRACKET DOT)? WORD (IN | ALL_IN) OPEN_PAREN array CLOSE_PAREN
-    | WORD BETWEEN (INT|DOUBLE) AND (INT|DOUBLE)
-    |  MATH_OPERATOR (INT|DOUBLE|QUOTE WORD QUOTE)
-    | expr (AND | OR) NOT?  expr
-    ;
-
-
-
-/*
-whereFunctions
-    : ID OPEN_PAREN CLOSE_PAREN 
-    | (STARTS_WITH | ENDS_WITH) OPEN_PAREN whereFunctions COMMA whereFunctions CLOSE_PAREN
-    ;
-*/
-    
-
-array
- :  QUOTE WORD QUOTE  (COMMA QUOTE WORD QUOTE)* #wordListExpression
- | (INT|DOUBLE) (COMMA (INT|DOUBLE))* #numberListExpression
- ;
 
 
