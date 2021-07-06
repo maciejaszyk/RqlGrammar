@@ -1,26 +1,29 @@
 lexer grammar RqlLexer;
 
 //SPECIAL CHARACTERS:
-OP_CUR:     '{';
 CL_CUR:     '}';
-OP_PAR:     '(';
-OP_Q:       '[';
-CL_Q:       ']';
 CL_PAR:     ')';   
-D_QUOTE:    '"';
-DOT:        '.';
+CL_Q:       ']';
 COMMA:      ',';
+DOT:        '.';
+D_QUOTE:    '"';
 EQUAL:      '=' | '==' | '<>' | '!=';
 MATH:       '<' | '>'  | '<=' | '>=';
+OP_CUR:     '{';
+OP_PAR:     '(';
+OP_Q:       '[';
 SLASH:      '/';
+
+
 //RQL keywords
-ALL_DOCS:       '@all_docs';
 ALL:            A L L;
+ALL_DOCS:       '@all_docs';
+ALPHANUMERIC:   A L P H A N U M E R I C;
 AND:            A N D;
 AS:             A S;
-SORTING:        A S C | A S C E N D I N G | D E S C | D E S C E N D I N G;
 BETWEEN:        B E T W E E N;
 DECLARE:        D E C L A R E;
+DOUBLE:         D O U B L E;
 ENDS_WITH:      E N D S W I T H;
 FALSE:          F A L S E;
 FROM:           F R O M;
@@ -28,25 +31,33 @@ GROUP_BY:       G R O U P ' ' B Y;
 IN:             I N;
 INCLUDE:        I N C L U D E;
 INDEX:          I N D E X;
+INTERSECT:      I N T E R S E C T;
 LOAD:           L O A D;
+LONG:           L O N G;
 MATCH:          M A T C H;
+MORELIKETHIS:   M O R E L I K E T H I S;
 NOT:            N O T;
 NULL:           N U L L;
+OR:             O R;
 ORDER_BY:       O R D E R ' ' B Y;
 SELECT:         S E L E C T;
+SORTING:        A S C | A S C E N D I N G | D E S C | D E S C E N D I N G;
 STARTS_WITH:    S T A R T S W I T H;
+STRING_W:       S T R I N G;
 TRUE:           T R U E;
 WHERE:          W H E R E;
 WITH:           W I T H;
-OR:             O R;
-WORD: [a-zA-Z]+;
-NUM: DIGIT+ (DOT DIGIT+)?;
-STRING : ('"' ( '\\"' | . )*? '"' ) | ('\'' ( '\\"' | . )*? '\'' );
+
+//Literals
+JS_BODY: '{' .*? '}';
 JS_FUNCTION_DECLARATION: 'declare function';
+NUM: DIGIT+ (DOT DIGIT+)?;
+STRING : ('"' ( '\\"' | . )*? '"' ) | ('\'' ( '\\"' | . )*? '\'' ) ;
+WORD: [a-zA-Z]+;
 
+
+// fragments
 fragment DIGIT:     [0-9];
-
-
 fragment A :    [aA];
 fragment B :    [bB];
 fragment C :    [cC];

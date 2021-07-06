@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RqlGrammar", "RqlGrammar\RqlGrammar.csproj", "{0651F001-33BE-427B-8E6F-6254B0EB87DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{95FFDB2F-4359-4C0E-A7A8-95CF9F13C915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{95FFDB2F-4359-4C0E-A7A8-95CF9F13C915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTester", "ManualTester\ManualTester.csproj", "{A3548966-2948-4FE3-B179-4F3A4D72E252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{95FFDB2F-4359-4C0E-A7A8-95CF9F13C915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95FFDB2F-4359-4C0E-A7A8-95CF9F13C915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95FFDB2F-4359-4C0E-A7A8-95CF9F13C915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3548966-2948-4FE3-B179-4F3A4D72E252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3548966-2948-4FE3-B179-4F3A4D72E252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3548966-2948-4FE3-B179-4F3A4D72E252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3548966-2948-4FE3-B179-4F3A4D72E252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
