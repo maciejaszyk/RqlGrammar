@@ -136,7 +136,7 @@ $tf/
 *.interp
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+**/.antlr
 # Guidance Automation Toolkit
 *.gpState
 

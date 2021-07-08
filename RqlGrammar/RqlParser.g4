@@ -1,66 +1,152 @@
 parser grammar RqlParser;
 options { tokenVocab = RqlLexer; }
 
-
 prog:
-    jsCode? fromStatement loadStatment? whereStatement? groupByStatement? orderByStatement? selectStatement? EOF
+    (jsFunction)* 
+    fromStatement 
+    loadStatment? 
+    whereStatement? 
+    groupByStatement? 
+    orderByStatement? 
+    selectStatement? 
+    EOF
     ;
 
 fromStatement:
      FROM WORD alias? #CollectionByName 
-    |FROM INDEX STRING+ alias? #CollectionByIndex
+    |FROM INDEX indexName alias? #CollectionByIndex
     |FROM ALL_DOCS #AllCollections 
     ;
 
+indexName:
+    STRING+;
+
 loadStatment:
-    LOAD itemName AS WORD #LoadAdditionalCollection
+    LOAD 
+    variable 
+    AS WORD #LoadAdditionalCollection
     ;
 
 selectStatement:
     //  Select only individual fields e.g. "select Column1, Column2"
-     SELECT itemName (COMMA itemName)* #ProjectIndividualFields
-    |SELECT selectItem (COMMA selectItem)* #ProjectWithGroupBy
+     SELECT 
+        (
+             function
+             |variable
+        ) 
+    alias? 
+    (
+        COMMA 
+        (
+            (
+                function
+                |variable
+            )
+             alias?
+        )
+    )* #ProjectIndividualFields
     |SELECT jsCode #javascriptCode
     ;
 
+jsFunction: 
+    (JS_FUNCTION_DECLARATION WORD OP_PAR WORD (COMMA WORD)* CL_PAR) //definition declare func(X,...y)
+    JS_BODY
+    ;
 
-jsCode: (JS_FUNCTION_DECLARATION WORD OP_PAR WORD (COMMA WORD)* CL_PAR)? OP_CUR .*? CL_CUR
-
+jsCode:
+    JS_BODY
 ;
 
 //tree with alias name in second node
 alias:
-    AS WORD #AliasExpr
+    AS WORD #AliasNode
     ;
 
-//Accept item or list
-itemName:
-    (WORD (OP_Q CL_Q)? DOT )? WORD
+//Capture variable name (also accept aliased names).
+variable:
+    (
+        WORD 
+        (OP_Q CL_Q)? 
+        DOT 
+    )? 
+    WORD
         ;
-selectItem:
-((functionName | itemName)) alias?;
-//Function with optional param
-functionName:
-    (WORD (DOT WORD)* OP_PAR ((itemName|STRING+|NUM|functionName) (COMMA (itemName|STRING+|NUM|functionName))*)? CL_PAR)
+
+//Function definition. It accept function with aliases, params or param-free.
+function:
+    (
+        variable 
+        OP_PAR 
+        (
+            (
+                function
+                |variable
+                |STRING+
+                |NUM
+            ) //Parser would throw when comma occures at first place in parenthesis
+            (
+                COMMA 
+                (
+                    function
+                    |variable
+                    |STRING+
+                    |NUM
+                )
+            )*
+        )? 
+        CL_PAR
+    )
         ;
 
 whereStatement:
-    WHERE expr #WherePart
+    WHERE expr
     ; 
 
 groupByStatement:
-    GROUP_BY ((functionName | itemName)) (COMMA (functionName | itemName))*
+    GROUP_BY 
+    (
+        function
+        |variable
+    )
+    (
+        COMMA 
+        (
+            function
+            |variable
+        )
+    )*
     ;
 
 orderByStatement:
-    ORDER_BY (functionName | itemName) (COMMA (functionName | itemName))* alias? SORTING?
+    ORDER_BY 
+        (
+            variable 
+            |function
+        )
+        (
+            COMMA 
+            (
+                variable 
+                |function
+            )
+        )* 
+        orderBySorting?
+        SORTING?
     ;
 
-   
-
+//Order sorting option keyword.
+orderBySorting:
+    AS 
+    (
+        STRING_W 
+        |ALPHANUMERIC
+        |LONG 
+        |DOUBLE
+    );
 
 expr:
-     OP_PAR expr CL_PAR #ParentissExpr
+    specialFunctions #SpecialFunctionExpr
+    | OP_PAR expr CL_PAR #ParentissExpr
     | expr EQUAL expr #EqualExpr
     | expr MATH expr #MathOperatorExpr
     | expr BETWEEN expr AND expr #BetweenExpr
@@ -69,9 +155,30 @@ expr:
     | expr  ALL? IN expr #ListExpr
     | COMMA? STRING+ expr? #WordValueExpr
     | NUM #NumExpr
-    | functionName #FunctionExpr
-    | itemName #WordExpr
+    | (FALSE | TRUE) #BooleanExpr
+    | function #FunctionExpr
+    | variable #VariableExpr
     ;
 
+//Functions like morelikethis() or intersect()
+specialFunctions:
+    (
+        MORELIKETHIS
+        |INTERSECT
+    ) 
+    OP_PAR 
+        specialParam 
+        (
+            COMMA specialParam
+        )* 
+    CL_PAR
+;
 
-
+specialParam:
+    specialParam EQUAL specialParam
+    | specialParam AND specialParam
+    | specialParam OR specialParam
+    | function
+    | variable
+    | STRING+
+    | NUM;
