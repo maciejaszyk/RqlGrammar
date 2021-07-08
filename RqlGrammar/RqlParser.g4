@@ -14,9 +14,12 @@ prog:
 
 fromStatement:
      FROM WORD alias? #CollectionByName 
-    |FROM INDEX STRING+ alias? #CollectionByIndex
+    |FROM INDEX indexName alias? #CollectionByIndex
     |FROM ALL_DOCS #AllCollections 
     ;
+
+indexName:
+    STRING+;
 
 loadStatment:
     LOAD 
@@ -56,7 +59,7 @@ jsCode:
 
 //tree with alias name in second node
 alias:
-    AS WORD #AliasExpr
+    AS WORD #AliasNode
     ;
 
 //Capture variable name (also accept aliased names).
