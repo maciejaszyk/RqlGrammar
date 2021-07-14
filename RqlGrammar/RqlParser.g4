@@ -4,7 +4,7 @@ options { tokenVocab = RqlLexer; }
 prog:
     (jsFunction)* 
     fromStatement 
-    loadStatment? 
+    loadStatement? 
     whereStatement? 
     groupByStatement? 
     orderByStatement? 
@@ -21,10 +21,10 @@ fromStatement:
 indexName:
     STRING+;
 
-loadStatment:
+loadStatement:
     LOAD 
     variable 
-    AS WORD #LoadAdditionalCollection
+    alias
     ;
 
 selectStatement:
@@ -59,7 +59,7 @@ jsCode:
 
 //tree with alias name in second node
 alias:
-    AS WORD #AliasNode
+    AS WORD
     ;
 
 //Capture variable name (also accept aliased names).
