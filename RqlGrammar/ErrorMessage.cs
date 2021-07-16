@@ -34,19 +34,14 @@ namespace RqlGrammar
             {
                 case ErrorType.InputMissing:
                 case ErrorType.NoViableAltException:
-                    return $"Options: {(NoViableInfo.Get(RuleIndex) == string.Empty ? string.Join(",", ExpectedToken) : NoViableInfo.Get(RuleIndex))}";
+                    return $"({Line},{CharPosition}): {(NoViableInfo.Get(RuleIndex).Length == 0 ? string.Join(",", ExpectedToken) : string.Join(",",NoViableInfo.Get(RuleIndex)))}";
                 case ErrorType.InputExtraneousException:
-                    var possibleMatches = new List<string>();
-                    foreach (var item in ExpectedToken)
-                    {
-                        if (item.Contains(OffendingSymbol) == true)
-                            possibleMatches.Add(item);
-                    }
-                    return $"Do you mean: ({string.Join(",", possibleMatches.Count == 0? ExpectedToken : possibleMatches)})";
+                    return $"({Line},{CharPosition}): ({string.Join(",", ExpectedToken)})";
                 case ErrorType.InputMissingException:
-                    return $"({Line},{CharPosition}): Write {ErrorInfo.Get(RuleIndex, TokenIndex)}. Available: ({string.Join(",", ExpectedToken)})";
                 case ErrorType.InputMismatchException:
-                    return $"({Line},{CharPosition}): Unexpected '{(OffendingSymbol.Contains( "<eof>" )? "end of query." : OffendingSymbol)}' Available: ({string.Join(",", ExpectedToken)})";
+                    var output = string.Join(",", MissingInfo.Get(RuleIndex));
+                    return $"({Line},{CharPosition}): " +
+                           $"({output},{(output.Length != 0 ? string.Empty : string.Join(",", ExpectedToken))})";
             }
             return "Not implemented";
         }

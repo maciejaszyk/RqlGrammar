@@ -28,7 +28,7 @@ namespace ManualTester
             InitializeComponent();
             //for (int i = 0; i < RqlLexer.DefaultVocabulary.MaxTokenType; i++)
             //{
-            //    Rql.Text += "{" + i.ToString() + ",\"" + RqlLexer.DefaultVocabulary.(i) + "\"}\n";
+            //    ErrorBox.Text += "{" + i.ToString() + ",\"" + RqlLexer.DefaultVocabulary.GetDisplayName(i) + "\"}\n";
             //}
         }
 

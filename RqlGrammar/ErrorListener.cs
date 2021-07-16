@@ -42,15 +42,15 @@ namespace RqlGrammar
         int charPositionInLine, string msg, RecognitionException e)
     {
         HasError = true;
-        var parser = (Parser)recognizer;
-        var expectedTokensIds =  parser.GetExpectedTokens();
-        var expectedTokenNames = new List<string>();
+        var parser = (Parser)recognizer; var expectedTokensIds =  parser.GetExpectedTokensWithinCurrentRule(); //GetExpectedTokens();
+            var expectedTokenNames = new List<string>();
 
         foreach (var id in expectedTokensIds.ToList())
         {
             expectedTokenNames.Add(RqlLexer.DefaultVocabulary.GetDisplayName(id).ToLower());
         }
 
+        
         
         ErrorList.Add(new ErrorMessage()
         {
