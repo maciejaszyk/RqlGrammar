@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 using Antlr4;
 using Antlr4.Runtime;
@@ -58,28 +59,28 @@ namespace Tests
         [Fact]
         public void FromByAllDocsWithAlias()
         {
-            //Error will throw later, not in from fragment.
             var result = Act("from @all_docs as name");
-            AssertNoErrors(result);
+            AssertWithError(result);
         }
         
-        private RqlParser Act(string input)
+        private ErrorMessage[] Act(string input)
         {
+            var errorList = new List<ErrorMessage>();
             var lexer = new RqlLexer(new AntlrInputStream(input));
             var parser = new RqlParser(new CommonTokenStream(lexer));
-            parser.fromStatement();
-
-            return parser;
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new RqlGrammar.ErrorListener(errorList));
+            parser.prog();
+            return errorList.ToArray();
         }
 
-        private static void AssertNoErrors(RqlParser result)
+        private static void AssertNoErrors(ErrorMessage[] result)
         {
-            Assert.Equal(0, result.NumberOfSyntaxErrors);
+            Assert.Empty(result);
         }
-
-        private static void AssertWithError(RqlParser result)
+        private static void AssertWithError(ErrorMessage[] result)
         {
-            Assert.NotEqual(0,result.NumberOfSyntaxErrors);
-        }
+            Assert.NotEmpty(result);
+        } 
     }
 }

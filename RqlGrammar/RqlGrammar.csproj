@@ -1,8 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Antlr4 Remove="FromStatement\**" />
+    <Compile Remove="FromStatement\**" />
+    <EmbeddedResource Remove="FromStatement\**" />
+    <None Remove="FromStatement\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Antlr4" Version="4.6.6">
@@ -14,11 +21,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+    <PackageReference Include="Fastenshtein" Version="1.0.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FromStatement\" />
-    <Folder Include="List\" />
+    <Antlr4 Update="RqlParser.g4">
+      <ForceAtn>false</ForceAtn>
+    </Antlr4>
   </ItemGroup>
 
 </Project>

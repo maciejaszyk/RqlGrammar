@@ -23,6 +23,7 @@ AND:            A N D;
 AS:             A S;
 BETWEEN:        B E T W E E N;
 DECLARE:        D E C L A R E;
+DISTINCT:       D I S T I N C T;
 DOUBLE:         D O U B L E;
 ENDS_WITH:      E N D S W I T H;
 FALSE:          F A L S E;
