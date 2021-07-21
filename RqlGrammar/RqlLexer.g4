@@ -13,6 +13,20 @@ OP_CUR:     '{';
 OP_PAR:     '(';
 OP_Q:       '[';
 SLASH:      '/';
+COLON:		':';
+SEMICOLON:	';';
+BACKSLASH:	[\\];
+PLUS:		'+';
+MINUS:		'-';
+AT:			'@';
+HASH:		'#';
+DOL:		'$'; 
+PERCENT:    '%';
+POWER:		'^';
+AMP:		'&';
+STAR:		'*';
+QUESTION_MARK:	'?';
+EXCLAMATION:	'!';
 
 
 //RQL keywords
@@ -26,7 +40,9 @@ DECLARE:        D E C L A R E;
 DISTINCT:       D I S T I N C T;
 DOUBLE:         D O U B L E;
 ENDS_WITH:      E N D S W I T H;
+STARTS_WITH:	S T A R T S W I T H;
 FALSE:          F A L S E;
+FACET:			F A C E T;
 FROM:           F R O M;
 GROUP_BY:       G R O U P ' ' B Y;
 IN:             I N;
@@ -43,18 +59,17 @@ OR:             O R;
 ORDER_BY:       O R D E R ' ' B Y;
 SELECT:         S E L E C T;
 SORTING:        A S C | A S C E N D I N G | D E S C | D E S C E N D I N G;
-STARTS_WITH:    S T A R T S W I T H;
 STRING_W:       S T R I N G;
 TRUE:           T R U E;
 WHERE:          W H E R E;
 WITH:           W I T H;
-
+EXACT:			E X A C T;
+BOOST:			B O O S T;
 //Literals
-JS_BODY: '{' .*? '}';
 JS_FUNCTION_DECLARATION: 'declare function';
 NUM: DIGIT+ (DOT DIGIT+)?;
 STRING : ('"' ( '\\"' | . )*? '"' ) | ('\'' ( '\\"' | . )*? '\'' ) ;
-WORD: [a-zA-Z]+;
+WORD: [a-zA-Z_]+;
 
 
 // fragments

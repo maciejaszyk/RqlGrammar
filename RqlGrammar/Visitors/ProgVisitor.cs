@@ -21,7 +21,7 @@ namespace RqlGrammar.Visitors
 
         public override object VisitCollectionByName([NotNull] RqlParser.CollectionByNameContext context)
         {
-            var collection = context.WORD().GetText();
+            var collection = context.collectionName().GetText();
             if (context.ChildCount == 3)
             {
                 var alias = Visit(context.GetChild(2));
