@@ -5,7 +5,7 @@ using Antlr4.Runtime;
 using RqlGrammar;
 using Xunit;
 
-namespace Tests
+namespace Tests.LowLevelTests
 {
     public class SelectTest
     {

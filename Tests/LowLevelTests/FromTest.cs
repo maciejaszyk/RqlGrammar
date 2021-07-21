@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using Xunit;
-using Antlr4;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
 using RqlGrammar;
-using Xunit.Abstractions;
 
-namespace Tests
+namespace Tests.LowLevelTests
 {
     public class FromTest
     {
@@ -47,13 +43,6 @@ namespace Tests
         {
             var result = Act("from index 'IndexName/Test' as name");
             AssertNoErrors(result);
-        }
-
-        [Fact]
-        public void FromByIndexWithoutIndexKeyword()
-        {
-            var result = Act("from 'Collection/Name'");
-            AssertWithError(result);
         }
 
         [Fact]

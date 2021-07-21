@@ -5,7 +5,7 @@ using Antlr4.Runtime;
 using RqlGrammar;
 using Xunit;
 
-namespace Tests
+namespace Tests.LowLevelTests
 {
     public class WhereTest
     {
@@ -30,12 +30,25 @@ namespace Tests
             AssertNoErrors(result);
         }
 
+        void ComplexBinaryOperator()
+        {
+            var result = Act("where (test = 10 and (x = 10 or (p <> null)))");
+            AssertNoErrors(result);
+        }
+
+        void ComplexFailingBinaryOperator()
+        {
+            var result = Act("where (test = 10 and (x = 10 or (p <> null))");
+            AssertNoErrors(result);
+        }
+
         [Fact]
         void BetweenKeyword()
         {
             var result = Act("where Value between 10.0 and 15");
             AssertNoErrors(result);
         }
+
 
         private RqlParser Act(string input)
         {
@@ -49,6 +62,10 @@ namespace Tests
         private static void AssertNoErrors(RqlParser result)
         {
             Assert.Equal(0, result.NumberOfSyntaxErrors);
+        }
+        private static void AssertWithErrors(RqlParser result)
+        {
+            Assert.NotEqual(0, result.NumberOfSyntaxErrors);
         }
     }
 }
