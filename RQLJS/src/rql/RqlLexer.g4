@@ -65,14 +65,11 @@ WHERE:          W H E R E;
 WITH:           W I T H;
 EXACT:			E X A C T;
 BOOST:			B O O S T;
-SEARCH:         S E A R C H;
-LIMIT:          L I M I T;
-FUZZY:          F U Z Z Y;
 //Literals
 JS_FUNCTION_DECLARATION: 'declare function';
 NUM: DIGIT+ (DOT DIGIT+)?;
 STRING : ('"' ( '\\"' | . )*? '"' ) | ('\'' ( '\\"' | . )*? '\'' ) ;
-WORD: AT? [a-zA-Z_0-9]+;
+WORD: [a-zA-Z_]+;
 
 
 // fragments
