@@ -12,12 +12,10 @@ prog:
     fromStatement 
     loadStatement? 
     whereStatement? 
-    groupByStatement?
+    groupByStatement? 
     orderByStatement? 
-    selectStatement? 
-    limitStatement?
     includeStatement?
-
+    selectStatement? 
     EOF
     ;
 
@@ -70,21 +68,18 @@ variable:
         WORD 
         (OP_Q CL_Q)? 
         DOT 
-    )?
-    WORD 
-    (DOT WORD)* 
-    | DOL (WORD(NUM)?)+
-    | SORTING
+    )? 
+    WORD
         ;
 
-//Function definition. It accept function with aliases, params or param-free.
-function:
+//Function definition. It accept custom_function with aliases, params or param-free.
+custom_function:
     (
         variable 
         OP_PAR 
         (
             (
-                function
+                custom_function
                 |variable
                 |STRING+
                 |NUM
@@ -92,7 +87,7 @@ function:
             (
                 COMMA 
                 (
-                    function
+                    custom_function
                     |variable
                     |STRING+
                     |NUM
@@ -157,16 +152,14 @@ expr:
     | COMMA? STRING+ expr? #WordValueExpr
     | NUM #NumExpr
     | (FALSE | TRUE) #BooleanExpr
-    | function #FunctionExpr
+    | custom_function #FunctionExpr
     | variable #VariableExpr
     ;
 
 //Functions like morelikethis() or intersect()
 specialFunctions:
     (
-        FUZZY
-        |SEARCH
-        |FACET
+        FACET
         |BOOST
         |STARTS_WITH
         |ENDS_WITH
@@ -189,21 +182,21 @@ specialParam:
     | specialParam OR specialParam
     | specialParam MATH specialParam
     | specialFunctions
-    | function
+    | custom_function
     | variable
     | STRING+
     | NUM;
 
 parameterWithOptionalAlias:
       (
-             function
+             custom_function
              |variable
         ) 
     alias?;
 
 parameter:
         (
-             function
+             custom_function
              |variable
         ) 
 ;
@@ -212,10 +205,7 @@ collectionName:
     |STRING;
 
 includeStatement:
-    INCLUDE parameter (COMMA parameter)*;
+    INCLUDE collectionName;
 
 fromAlias:
     AS? WORD;
-
-limitStatement:
-    LIMIT parameter (COMMA parameter)*;
