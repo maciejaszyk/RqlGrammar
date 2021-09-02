@@ -27,8 +27,6 @@ AMP:		'&';
 STAR:		'*';
 QUESTION_MARK:	'?';
 EXCLAMATION:	'!';
-
-
 //RQL keywords
 ALL:            A L L;
 ALL_DOCS:       '@all_docs';
@@ -45,6 +43,7 @@ FALSE:          F A L S E;
 FACET:			F A C E T;
 FROM:           F R O M;
 GROUP_BY:       G R O U P ' ' B Y;
+ID:             I D ;
 IN:             I N;
 INCLUDE:        I N C L U D E;
 INDEX:          I N D E X;
@@ -52,6 +51,7 @@ INTERSECT:      I N T E R S E C T;
 LOAD:           L O A D;
 LONG:           L O N G;
 MATCH:          M A T C H;
+METADATA:       AT M E T A D A T A;
 MORELIKETHIS:   M O R E L I K E T H I S;
 NOT:            N O T;
 NULL:           N U L L;
@@ -60,6 +60,7 @@ ORDER_BY:       O R D E R ' ' B Y;
 SELECT:         S E L E C T;
 SORTING:        A S C | A S C E N D I N G | D E S C | D E S C E N D I N G;
 STRING_W:       S T R I N G;
+TO:             T O;
 TRUE:           T R U E;
 WHERE:          W H E R E;
 WITH:           W I T H;
@@ -68,6 +69,8 @@ BOOST:			B O O S T;
 SEARCH:         S E A R C H;
 LIMIT:          L I M I T;
 FUZZY:          F U Z Z Y;
+RQLJS:          AT R Q L J S;
+JAVASCRIPT: '{' ( JAVASCRIPT | ~'{'  | ~'}' )*? '}'   -> channel(2);
 //Literals
 JS_FUNCTION_DECLARATION: 'declare function';
 NUM: DIGIT+ (DOT DIGIT+)?;
