@@ -36,8 +36,7 @@ namespace RqlGrammar
 
             return ErrorType.NotImplemented;
         }
-    
-
+        
     public override void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line,
         int charPositionInLine, string msg, RecognitionException e)
     {
@@ -50,8 +49,6 @@ namespace RqlGrammar
             expectedTokenNames.Add(RqlLexer.DefaultVocabulary.GetDisplayName(id).ToLower());
         }
 
-        
-        
         ErrorList.Add(new ErrorMessage()
         {
             Line = line,

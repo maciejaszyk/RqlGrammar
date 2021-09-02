@@ -59,13 +59,7 @@ namespace RqlGrammar.Visitors
 
         #region Load
 
-        public override object VisitLoadStatement([NotNull] RqlParser.LoadStatementContext context)
-        {
-            DataHolder.Instance.LoadOption = (context.variable().GetText(), (string)Visit(context.GetChild(2)));
-            if (DataHolder.Instance.Aliases.ContainsKey(DataHolder.Instance.LoadOption.Item1))
-                throw new Exception($"Alias already used.");
-            return "OK";
-        }
+       
 
         #endregion
 
@@ -77,10 +71,7 @@ namespace RqlGrammar.Visitors
             return base.VisitProjectIndividualFields(context);
         }
 
-        public override object VisitJavascriptCode([NotNull] RqlParser.JavascriptCodeContext context)
-        {
-            return base.VisitJavascriptCode(context);
-        }
+       
 
         #endregion
 

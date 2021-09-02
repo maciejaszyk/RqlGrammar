@@ -55,7 +55,8 @@ namespace Tests
                 var data = JsonConvert.DeserializeObject<List<string>>(System.IO.File.ReadAllText(@"out2.json")).ToList();
                 foreach (var item in data)
                 {
-                    list.Add(new object[]{item});
+                    if (item.Contains("timeseries") == false && item.Contains("match") == false)
+                        list.Add(new object[]{item});
                 }
 
                 _data = list;
