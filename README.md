@@ -1,1 +1,1 @@
-Antlr gramma for RavenDB Query Language.
+Antlr grammar for RavenDB Query Language.
